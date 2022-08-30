@@ -68,41 +68,40 @@ public class ShopController {
     }
 
     @FXML
-    protected void onSearchFieldChanged() {
+    public void onSearchFieldChanged() {
         filteredGoods.clear();
         filteredGoods.addAll(goods.stream().filter(g -> g.getProduct().contains(searchField.getText())).collect(Collectors.toList()));
         updateGoods();
     }
 
     @FXML
-    protected void onGoodsListClicked() {
+    public void onGoodsListClicked() {
         GoodsTable item = goodsList.getSelectionModel().getSelectedItem();
         addToCart(item);
         updateCart();
     }
 
     @FXML
-    protected void onShoppingListClicked() {
+    public void onShoppingListClicked() {
         ShoppingTable item = shoppingList.getSelectionModel().getSelectedItem();
         removeFromCart(item);
         updateCart();
     }
 
     @FXML
-    protected void onPayButtonAction() throws IOException {
+    public void onPayButtonAction() throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("PaymentView.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
-        fxmlLoader.<PaymentController>getController().setSumFromGoods(sumField.getText());
-
+        fxmlLoader.<PaymentController>getController().setVars(this, sumField.getText());
 
         stage.setTitle("Payment");
         stage.setScene(scene);
         stage.show();
     }
 
-    private void addToCart(GoodsTable item) {
+    public void addToCart(GoodsTable item) {
         for (ShoppingTable shoppingElement:
              cart) {
             if (shoppingElement.equals(item)) {
@@ -113,7 +112,7 @@ public class ShopController {
         cart.add(new ShoppingTable(item));
     }
 
-    private void removeFromCart(ShoppingTable item) {
+    public void removeFromCart(ShoppingTable item) {
         for (ShoppingTable shoppingElement:
                 cart) {
             if (shoppingElement.equals(item)) {
@@ -125,14 +124,19 @@ public class ShopController {
         }
     }
 
-    private void updateGoods() {
+    public void updateGoods() {
         goodsList.getItems().clear();
         goodsList.setItems(FXCollections.observableArrayList(filteredGoods));
     }
 
-    private void updateCart() {
+    public void updateCart() {
         shoppingList.getItems().clear();
         shoppingList.setItems(FXCollections.observableArrayList(cart));
         sumField.setText(cart.stream().map(ShoppingTable::getSumCost).reduce(BigDecimal.ZERO, BigDecimal::add).toString());
+    }
+
+    public void clearAll() {
+        cart.clear();
+        updateCart();
     }
 }

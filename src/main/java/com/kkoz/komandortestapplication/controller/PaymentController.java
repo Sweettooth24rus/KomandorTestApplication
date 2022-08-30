@@ -25,24 +25,23 @@ public class PaymentController {
 
     private BigDecimal sumFromGoods;
 
+    private ShopController shopController;
+
     @FXML
     private TextField sumField;
 
-    public void setSumFromGoods(String sum) {
+    public void setVars(ShopController shopController, String sum) {
+        this.shopController = shopController;
         sumFromGoods = new BigDecimal(sum);
         sumField.setText("0");
     }
 
     @FXML
-    protected void onOkButtonAction() {
+    protected void onOkButtonAction() throws IOException {
         if (new BigDecimal(sumField.getText()).equals(sumFromGoods)) {
-            //TODO
-            Stage stage = (Stage) sumField.getScene().getWindow();
-            stage.close();
+            shopController.clearAll();
         }
-        else {
-            Stage stage = (Stage) sumField.getScene().getWindow();
-            stage.close();
-        }
+        Stage stage = (Stage) sumField.getScene().getWindow();
+        stage.close();
     }
 }

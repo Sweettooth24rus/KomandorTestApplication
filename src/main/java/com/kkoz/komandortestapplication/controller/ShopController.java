@@ -1,49 +1,50 @@
 package com.kkoz.komandortestapplication.controller;
 
+import com.kkoz.komandortestapplication.Main;
 import com.kkoz.komandortestapplication.model.tables.GoodsTable;
 import com.kkoz.komandortestapplication.model.tables.ShoppingTable;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MainViewController {
+public class ShopController {
 
-    List<GoodsTable> goods = new ArrayList<>();
-    List<GoodsTable> filteredGoods = new ArrayList<>();
-    List<ShoppingTable> cart = new ArrayList<>();
+    private List<GoodsTable> goods = new ArrayList<>();
+    private List<GoodsTable> filteredGoods = new ArrayList<>();
+    private List<ShoppingTable> cart = new ArrayList<>();
 
     @FXML
     private TextField searchField;
 
     @FXML
-    public TableColumn<GoodsTable, String> productGoodsColumn;
+    private TableColumn<GoodsTable, String> productGoodsColumn;
     @FXML
-    public TableColumn<GoodsTable, BigDecimal> costGoodsColumn;
+    private TableColumn<GoodsTable, BigDecimal> costGoodsColumn;
     @FXML
     private TableView<GoodsTable> goodsList;
 
     @FXML
-    public TableColumn<ShoppingTable, String> productShoppingColumn;
+    private TableColumn<ShoppingTable, String> productShoppingColumn;
     @FXML
-    public TableColumn<ShoppingTable, Integer> amountShoppingColumn;
+    private TableColumn<ShoppingTable, Integer> amountShoppingColumn;
     @FXML
-    public TableColumn<ShoppingTable, BigDecimal> costShoppingColumn;
+    private TableColumn<ShoppingTable, BigDecimal> costShoppingColumn;
     @FXML
     private TableView<ShoppingTable> shoppingList;
 
     @FXML
     private Text sumField;
-
-    @FXML
-    private Button payButton;
 
     @FXML
     public void initialize() {
@@ -88,8 +89,17 @@ public class MainViewController {
     }
 
     @FXML
-    protected void onPayButtonAction() {
+    protected void onPayButtonAction() throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("PaymentView.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
 
+        fxmlLoader.<PaymentController>getController().setSumFromGoods(sumField.getText());
+
+
+        stage.setTitle("Payment");
+        stage.setScene(scene);
+        stage.show();
     }
 
     private void addToCart(GoodsTable item) {

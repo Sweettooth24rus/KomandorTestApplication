@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 public class GoodsTable {
     private String product;
-
     private BigDecimal cost;
 
     public GoodsTable(String product, BigDecimal cost) {

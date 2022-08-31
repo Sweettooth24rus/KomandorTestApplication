@@ -5,3 +5,4 @@
 *.ipr
 /data/db/global/
 /build/
+/.gradle/

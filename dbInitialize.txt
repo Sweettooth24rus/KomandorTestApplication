@@ -1,0 +1,37 @@
+CREATE SCHEMA cashtest;
+
+CREATE TABLE IF NOT EXISTS cashtest.goods
+(
+    id uuid NOT NULL,
+    name character varying(255) NOT NULL,
+    cost numeric NOT NULL,
+    CONSTRAINT goods_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE IF NOT EXISTS cashtest.checks
+(
+    id uuid NOT NULL,
+    date date NOT NULL,
+    "time" time with time zone NOT NULL,
+    sum numeric NOT NULL,
+    CONSTRAINT checks_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE IF NOT EXISTS cashtest.checklines
+(
+    id uuid NOT NULL,
+    check_id uuid NOT NULL,
+    row_number integer NOT NULL,
+    amount integer NOT NULL,
+    row_sum numeric NOT NULL,
+    product_id uuid NOT NULL,
+    CONSTRAINT checklines_pkey PRIMARY KEY (id)
+)
+
+INSERT INTO cashtest.goods (
+id, name, cost) VALUES (
+'a930ffd4-28b7-11ed-a261-0242ac120002'::uuid, 'Обычный кофе'::character varying, '100'::numeric);
+
+INSERT INTO cashtest.goods (
+id, name, cost) VALUES (
+'dd38b72c-28b7-11ed-a261-0242ac120002'::uuid, 'Латте'::character varying, '139.99'::numeric);

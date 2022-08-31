@@ -1,30 +1,18 @@
 package com.kkoz.komandortestapplication.model.tables;
 
-import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
+import java.math.BigDecimal;
+import java.util.UUID;
+
+
+@AllArgsConstructor
+@Data
 public class GoodsTable {
     private String product;
+    private UUID productId;
     private BigDecimal cost;
 
-    public GoodsTable(String product, BigDecimal cost) {
-        this.product = product;
-        this.cost = cost;
-    }
-
-    public String getProduct() {
-        return product;
-    }
-
-    public void setProduct(String product) {
-        this.product = product;
-    }
-
-    public BigDecimal getCost() {
-        return cost;
-    }
-
-    public void setCost(BigDecimal cost) {
-        this.cost = cost;
-    }
 }
 

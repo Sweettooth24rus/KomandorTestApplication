@@ -7,18 +7,23 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ShopController {
+
+    private DbController dbController;
 
     private List<GoodsTable> goods = new ArrayList<>();
     private List<GoodsTable> filteredGoods = new ArrayList<>();
@@ -47,11 +52,11 @@ public class ShopController {
     private Text sumField;
 
     @FXML
-    public void initialize() {
-        goods.add(new GoodsTable("Test1", BigDecimal.valueOf(150)));
-        goods.add(new GoodsTable("Test2", BigDecimal.valueOf(150.99)));
-        goods.add(new GoodsTable("Test3", BigDecimal.valueOf(50.99)));
-        goods.add(new GoodsTable("Test4", BigDecimal.valueOf(1550)));
+    public void initialize() throws SQLException {
+
+        dbController = new DbController();
+
+        goods.addAll(dbController.getGoods());
 
         filteredGoods.addAll(goods);
 
@@ -138,5 +143,9 @@ public class ShopController {
     public void clearAll() {
         cart.clear();
         updateCart();
+    }
+
+    public  void addCheck() {
+        dbController.addCheck(cart, new BigDecimal(sumField.getText()));
     }
 }
